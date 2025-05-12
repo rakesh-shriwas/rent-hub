@@ -1,0 +1,19 @@
+main {
+  padding: 72px 16px 16px 16px;
+}
+.mat-toolbar {
+  position: fixed;
+  z-index: 999;
+}
+.container {
+  max-width: 1320px;
+  margin: 0px auto;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.home-button {
+  font-size: 18px;
+  font-weight: 600;
+}
