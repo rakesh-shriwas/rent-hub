@@ -1,6 +1,5 @@
-<div class="rent-card-container">
+<div class="card-container">
   @for (post of posts$ | async; track post.id) {
-      <app-rent-card (viewPostDetails)="viewDetails($event)" [post]="post"></app-rent-card>
+      <app-card (viewPostDetails)="viewDetails($event)" [post]="post"></app-card>
   }
 </div>
-{{ comments$ | async | json }}

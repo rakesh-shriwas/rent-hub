@@ -1,0 +1,36 @@
+<mat-card class="card" appearance="outlined">
+  <img
+    mat-card-image
+    [src]="post.images[0]"
+    [alt]="post.title"
+    loading="lazy"
+  />
+  <mat-card-content>
+    <p class="card-title">
+      {{ post.title }}
+    </p>
+    <p class="card-description">
+      {{ post.description }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button class="ml-auto" (click)="viewPostDetails.emit(post.id)">
+      View Details
+    </button>
+    @if (showFavoriteButton) {
+
+    <button
+      mat-fab
+      class="fav-btn"
+      [matTooltip]="
+        post.isFavorite ? 'Remove from Favorites' : 'Add from Favorites'
+      "
+      (click)="toggleFavorite.emit(post.id)"
+    >
+      <mat-icon>{{
+        post.isFavorite ? "favorite" : "favorite_border"
+      }}</mat-icon>
+    </button>
+    }
+  </mat-card-actions>
+</mat-card>

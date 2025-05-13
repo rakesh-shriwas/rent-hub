@@ -1,1 +1,7 @@
-<p>fav-list works!</p>
+<div class="card-container">
+    @for (favoritePost of favoritesPostList(); track favoritePost.id) {
+        <app-card (viewPostDetails)="viewDetails($event)" (toggleFavorite)="onFavoriteChange($event)" [post]="favoritePost"></app-card>
+    }@empty {
+        <app-not-record-found class="no-record"></app-not-record-found>
+    }
+</div>

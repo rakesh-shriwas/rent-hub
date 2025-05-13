@@ -24,6 +24,17 @@ export class CommonService {
   }
 
   /**
+   * Get Post by id
+   *
+   * @param {number} userId
+   * @return {*}  {Observable<IRentPost[]>}
+   * @memberof CommonService
+   */
+  getPostDetailsById(postId: number): Observable<IRentPost[]> {
+    return this.http.get<IRentPost[]>(`${this.apiUrl}/posts?id=${postId}`);
+  }
+
+  /**
    * Get favorites post by user id
    *
    * @param {number} userId
@@ -31,8 +42,19 @@ export class CommonService {
    * @memberof CommonService
    */
   getFavoriteById(userId: number): Observable<IFavorites[]> {
-    return this.http.get<IFavorites[]>(`${this.apiUrl}/favorites/${userId}`);
+    return this.http.get<IFavorites[]>(
+      `${this.apiUrl}/favorites?userId=${userId}`
+    );
   }
+
+  // favoriteChangesById(obj:{userId: number, postId: number}) {
+  //   return this.http.get<IFavorites[]>(`${this.apiUrl}/favorites?userId=${obj.userId}&postId=${obj.postId}`).subscribe((favorites) => {
+  //     favorites.forEach((fav) => {
+  //       return this.http.delete(`${this.apiUrl}/favorites/${fav.id}`)
+  //     })
+  //   });
+
+  // }
 
   /**
    * Get post comments by post id
@@ -42,7 +64,20 @@ export class CommonService {
    * @memberof CommonService
    */
   getCommentsByPostId(postId: number): Observable<IComments[]> {
-    return this.http.get<IComments[]>(`${this.apiUrl}/comments?postId=${postId}`);
+    return this.http.get<IComments[]>(
+      `${this.apiUrl}/comments?postId=${postId}&_sort=createdAt&_order=asc`
+    );
+  }
+
+  /**
+   * Post a new comment on a post
+   *
+   * @param {IComments} obj
+   * @return {*}  {Observable<IComments[]>}
+   * @memberof CommonService
+   */
+  postAComment(obj: IComments): Observable<IComments[]> {
+    return this.http.post<IComments[]>(`${this.apiUrl}/comments?postId=${obj.postId}`, obj);
   }
 
   /**
