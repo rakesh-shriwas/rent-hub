@@ -43,13 +43,14 @@ interface ILoginSignupForm {
 })
 export class LoginSignupDialogComponent {
   readonly dialogRef = inject(MatDialogRef<LoginSignupDialogComponent>);
-  authMode = inject<string>(MAT_DIALOG_DATA);
+  authMode = inject<'login' | 'signup'>(MAT_DIALOG_DATA);
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   authModeType = AuthModeType;
   loginSignupForm: FormGroup<ILoginSignupForm>;
 
   constructor() {
     this.initForm();
+    this.toggleAuthMode(this.authMode);
   }
 
   /**

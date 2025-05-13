@@ -1,3 +1,6 @@
 <div class="rent-card-container">
-    <app-rent-card (viewPostDetails)="viewDetails($event)"></app-rent-card>
+  @for (post of posts$ | async; track post.id) {
+      <app-rent-card (viewPostDetails)="viewDetails($event)" [post]="post"></app-rent-card>
+  }
 </div>
+{{ comments$ | async | json }}

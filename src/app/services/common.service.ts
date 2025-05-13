@@ -19,7 +19,7 @@ export class CommonService {
    * @return {*}  {Observable<IRentPost[]>}
    * @memberof CommonService
    */
-  getRentPost(): Observable<IRentPost[]> {
+  getRentPosts(): Observable<IRentPost[]> {
     return this.http.get<IRentPost[]>(`${this.apiUrl}/posts`);
   }
 
@@ -42,7 +42,7 @@ export class CommonService {
    * @memberof CommonService
    */
   getCommentsByPostId(postId: number): Observable<IComments[]> {
-    return this.http.get<IComments[]>(`${this.apiUrl}/comments/${postId}`);
+    return this.http.get<IComments[]>(`${this.apiUrl}/comments?postId=${postId}`);
   }
 
   /**
