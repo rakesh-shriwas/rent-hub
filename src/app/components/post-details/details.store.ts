@@ -37,6 +37,7 @@ export class PostDetailsComponentStore extends ComponentStore<PostDetailsInitial
   );
 
   readonly selectPostCommentSuccessfully$: Observable<boolean> = this.select((state) => state.postCommentSuccessfully);
+  readonly selectCommentIsLoading$: Observable<boolean> = this.select((state) => state.commentIsLoading);
 
   readonly loadPostDetailsById = this.effect(
     (data: Observable<{ postId: number }>) =>
@@ -104,20 +105,20 @@ export class PostDetailsComponentStore extends ComponentStore<PostDetailsInitial
       switchMap((req: IComments) => {
         this.setState((state) => ({
           ...state,
-          commentSuccessfully: false
+          postCommentSuccessfully: false
         }));
         return this.service.postAComment(req).pipe(
           tap({
             next: (comments: IComments[]) => {
               this.setState((state) => ({
                 ...state,
-                commentSuccessfully: true,
+                postCommentSuccessfully: true,
               }));
             },
             error: () => {
               this.setState((state) => ({
                 ...state,
-                commentSuccessfully: false,
+                postCommentSuccessfully: false,
               }));
             },
           })

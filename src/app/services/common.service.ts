@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { env } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
@@ -47,14 +47,6 @@ export class CommonService {
     );
   }
 
-  // favoriteChangesById(obj:{userId: number, postId: number}) {
-  //   return this.http.get<IFavorites[]>(`${this.apiUrl}/favorites?userId=${obj.userId}&postId=${obj.postId}`).subscribe((favorites) => {
-  //     favorites.forEach((fav) => {
-  //       return this.http.delete(`${this.apiUrl}/favorites/${fav.id}`)
-  //     })
-  //   });
-
-  // }
 
   /**
    * Get post comments by post id
@@ -65,7 +57,7 @@ export class CommonService {
    */
   getCommentsByPostId(postId: number): Observable<IComments[]> {
     return this.http.get<IComments[]>(
-      `${this.apiUrl}/comments?postId=${postId}&_sort=createdAt&_order=asc`
+      `${this.apiUrl}/comments?postId=${postId}&_sort=id&_order=desc`
     );
   }
 

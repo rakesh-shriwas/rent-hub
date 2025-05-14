@@ -50,5 +50,8 @@
     </div>
   </mat-card-content>
 </mat-card>
-<!-- <mat-divider></mat-divider> -->
-<app-comments [comments]="(postComments$ | async) ?? []" (postComment)="postComment($event)"></app-comments>
+<app-comments
+  [comments]="(postComments$ | async) ?? []"
+  (postComment)="postComment($event)"
+  [isLoading]="(commentIsLoading$ | async) ?? false"
+></app-comments>

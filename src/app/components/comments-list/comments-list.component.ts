@@ -23,7 +23,8 @@ import { AbstractControl, FormControl, ReactiveFormsModule, Validators } from '@
 export class CommentsListComponent {
   commentFormControl = new FormControl('', [Validators.minLength(6), this.noWhitespaceValidator]);
 
-  @Input() comments: IComments[];
+  @Input() comments: IComments[] = [];
+  @Input() isLoading: boolean = false;
   @Output() postComment = new EventEmitter<string>();
 
   postAComment(): void {

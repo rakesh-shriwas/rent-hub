@@ -8,20 +8,25 @@
       rows="3"
       [formControl]="commentFormControl"
     ></textarea>
-    @if (commentFormControl.touched && commentFormControl.errors?.['whitespace'])
-    {
+    @if (commentFormControl.touched &&
+    commentFormControl.errors?.['whitespace']) {
     <mat-error>Comment cannot be empty or whitespace only</mat-error>
-    }
-    @if (commentFormControl.touched && commentFormControl.errors?.['minlength'])
-    {
+    } @if (commentFormControl.touched &&
+    commentFormControl.errors?.['minlength']) {
     <mat-error>Comment must be at least 6 characters long.</mat-error>
     }
   </mat-form-field>
-  <button mat-flat-button [disabled]="commentFormControl.invalid" (click)="postAComment()">
+  <button
+    mat-flat-button
+    [disabled]="commentFormControl.invalid"
+    (click)="postAComment()"
+  >
     Submit
   </button>
 </div>
-@for (comment of comments; track comment.id) {
+@if (isLoading) {
+<p>Loading...</p>
+} @for (comment of comments; track comment.id) {
 <mat-card appearance="outlined" class="comment-card">
   <mat-card-header>
     <div class="d-flex align-items-center justify-content-between gap-2 w-100">
@@ -38,4 +43,6 @@
     </p>
   </mat-card-content>
 </mat-card>
+}@empty {
+  <p class="text-center">There is no Comments</p>
 }

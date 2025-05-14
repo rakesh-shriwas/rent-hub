@@ -45,6 +45,8 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   /** Store Comment Successfully */
   readonly postCommentSuccessfully$: Observable<boolean> =
     this.componentStore.selectPostCommentSuccessfully$;
+  /** Store Comment loading state */
+  readonly commentIsLoading$: Observable<boolean> = this.componentStore.selectCommentIsLoading$;
 
   ngOnInit(): void {
     this.activatedRoute.params
@@ -89,7 +91,7 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
 
   postComment(comment: string): void {
     const obj: IComments = {
-      createdAt: String(new Date()),
+      createdAt: new Date().toISOString(),
       postId: 101,
       userId: 5,
       userName: 'Jane Doe',
