@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class CardComponent {
   @Output() viewPostDetails = new EventEmitter();
   @Output() toggleFavorite = new EventEmitter();
+  @Output() editPost = new EventEmitter();
   @Input() post: IRentPost;
   @Input() showFavoriteButton: boolean = true;
 

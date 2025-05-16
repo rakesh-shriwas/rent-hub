@@ -8,6 +8,8 @@ import { loadRentPost } from '../../store/renthub.action';
 import { CardComponent } from '../card/card.component';
 import { AsyncPipe } from '@angular/common';
 import { NotRecordFoundComponent } from '../not-record-found/not-record-found.component';
+import { CreatePostDialogComponent } from '../create-post-dialog/create-post-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-post-list',
@@ -17,6 +19,7 @@ import { NotRecordFoundComponent } from '../not-record-found/not-record-found.co
 })
 export class PostListComponent {
   private store = inject(Store);
+  readonly dialog = inject(MatDialog);
   private destroy$ = new Subject<void>();
   router = inject(Router);
   myPostList = signal<IRentPost[]>([]);
@@ -28,15 +31,23 @@ export class PostListComponent {
   ngOnInit(): void {
     this.store.dispatch(loadRentPost());
     this.posts$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
-      if(res?.length){
+      if (res?.length) {
         const filterData = res.filter((post) => post.userId === this.userId);
         this.myPostList.set(filterData);
       }
-    })
+    });
   }
 
   viewDetails(postId: number): void {
     this.router.navigate(['/home', 'my', 'post', postId]);
+  }
+
+  editPost(post: IRentPost): void {
+    this.dialog.open(CreatePostDialogComponent, {
+      maxWidth: '950px',
+      autoFocus: false,
+      data: post,
+    });
   }
 
   ngOnDestroy(): void {
