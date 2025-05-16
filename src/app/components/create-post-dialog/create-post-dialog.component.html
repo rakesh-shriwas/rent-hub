@@ -178,7 +178,7 @@
     <h4>Amenities included</h4>
     <div class="amenities-section">
       @for (amenity of amenitiesList; track $index) {
-        <mat-checkbox [checked]="isChecked(amenity)"  (change)="onCheckboxChange(amenity, $event.checked)">{{ amenity }}</mat-checkbox>
+        <mat-checkbox [checked]="isChecked(amenity)" (change)="onCheckboxChange($event)" [value]="amenity">{{ amenity }}</mat-checkbox>
       }
     </div>
     <h4>Gallery</h4>
@@ -186,7 +186,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-flat-button [disabled]="createPostForm.invalid" (click)="createNewPost()">
-    Create
+  <button mat-flat-button (click)="createNewPost()">
+    {{ data ? 'Update' : 'Create' }}
   </button>
 </mat-dialog-actions>

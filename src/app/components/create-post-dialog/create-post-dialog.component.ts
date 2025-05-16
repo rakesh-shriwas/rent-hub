@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {
   FormArray,
@@ -58,6 +58,7 @@ export class CreatePostDialogComponent implements OnInit {
   private store = inject(Store);
   readonly dialogRef = inject(MatDialogRef<CreatePostDialogComponent>);
   private destroy$ = new Subject<void>();
+  data = inject(MAT_DIALOG_DATA);
 
   createPostSuccess$: Observable<boolean> = this.store.select(
     selectCreatePostSuccess
@@ -78,6 +79,7 @@ export class CreatePostDialogComponent implements OnInit {
     'Elevator',
     'Club House',
   ];
+  selectedAmenitiesList: string[] = [];
 
   ngOnInit(): void {
     this.initForm();
@@ -87,6 +89,16 @@ export class CreatePostDialogComponent implements OnInit {
         this.store.dispatch(loadRentPost());
       }
     });
+
+    if(this.data){
+      this.createPostForm.patchValue(this.data);
+      this.selectedAmenities = this.data.amenities;
+    }
+
+    this.amenitiesList.forEach((aminity) => {
+      this.addAmenity(aminity);
+    });
+
   }
 
   initForm(): void {
@@ -112,25 +124,39 @@ export class CreatePostDialogComponent implements OnInit {
 
   createNewPost(): void {
     const formValue = this.createPostForm.value;
+    console.log(this.selectedAmenitiesList);
     if (this.createPostForm.valid) {
       this.store.dispatch(
-        createPost({ payload: { ...formValue, userId: 2, images: [] } })
+        createPost({ payload: { ...formValue, userId: 2, images: [], amenities: this.selectedAmenitiesList } })
       );
+    }else {
+      this.createPostForm.markAllAsTouched();
     }
   }
 
-  onCheckboxChange(amenity: string, checked: boolean) {
-    const amenities = this.createPostForm.get('amenities') as FormArray;
+  onCheckboxChange(event: any) {
+    const checked = event.checked;
+    const value = event.source.value;
+
     if (checked) {
-      amenities.push(new FormControl(amenity));
+      this.selectedAmenitiesList.push(value);
     } else {
-      const index = amenities.controls.findIndex((x) => x.value === amenity);
-      if (index >= 0) amenities.removeAt(index);
+      const index = this.amenities.controls.findIndex(x => x.value === value);
+      if (index !== -1) {
+        this.selectedAmenitiesList.splice(index, 1);
+      }
     }
   }
 
-  isChecked(amenity: string): boolean {
-    const amenities = this.createPostForm.get('amenities') as FormArray;
-    return amenities.value.includes(amenity);
+  addAmenity(value: string) {
+    this.amenities.push(new FormControl(value));
+  }
+
+  get amenities() {
+    return this.createPostForm.get('amenities') as FormArray;
+  }
+
+  isChecked(value: string): boolean {
+    return this.selectedAmenitiesList.includes(value);
   }
 }
