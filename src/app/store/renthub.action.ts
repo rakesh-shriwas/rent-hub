@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { IComments, IRentPost } from "../models/common.vm";
+import { IComments, ICreatePost, IRentPost } from "../models/common.vm";
 
 
 /** Rent Post Action */
@@ -7,6 +7,6 @@ export const loadRentPost = createAction('[Posts] Load Rent Posts');
 export const loadRentPostSuccess = createAction('[Posts] Load Rent Posts Success', props<{posts: IRentPost[]}>());
 
 /** Post Comments */
-export const loadCommentsByPostId = createAction('[Comments] Load Post Comments', props<{postId: number}>());
-export const loadCommentsByPostIdSuccess = createAction('[Comments] Load Post Comments Success', props<{comments: IComments[]}>());
-export const loadCommentsByPostIdFailure = createAction('[Comments] Load Post Comments Failure', props<{error: string}>());
+export const createPost = createAction('[Post] Create New Post', props<{payload: any}>());
+export const createPostSuccess = createAction('[Post] Create New Post Success', props<{post: IRentPost}>());
+export const createPostFailure = createAction('[Post] Create New Post Failure', props<{error: string}>());

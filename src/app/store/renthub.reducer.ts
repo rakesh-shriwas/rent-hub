@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { IComments, IRentPost } from '../models/common.vm';
 import {
-  loadCommentsByPostId,
-  loadCommentsByPostIdFailure,
-  loadCommentsByPostIdSuccess,
+  createPost,
+  createPostFailure,
+  createPostSuccess,
   loadRentPost,
   loadRentPostSuccess,
 } from './renthub.action';
@@ -14,6 +14,7 @@ export interface RentHubState {
   isLoading: boolean;
   comments: IComments[];
   error: string | null;
+  createPostSuccess: boolean;
 }
 
 /** Initial State with default value of Rent Post */
@@ -22,6 +23,7 @@ export const initialState: RentHubState = {
   isLoading: false,
   comments: [],
   error: null,
+  createPostSuccess: false
 };
 
 /** Rent Post Reducer Creation */
@@ -37,18 +39,20 @@ export const rentPostReducer = createReducer(
     posts,
     isLoading: false,
   })),
-  on(loadCommentsByPostId, (state) => ({
+  on(createPost, (state) => ({
     ...state,
     isLoading: true,
+    createPostSuccess: false
   })),
-  on(loadCommentsByPostIdSuccess, (state, { comments }) => ({
+  on(createPostSuccess, (state, { post }) => ({
     ...state,
-    comments,
+    posts: [...state.posts, post],
     isLoading: false,
+    createPostSuccess: true
   })),
-  on(loadCommentsByPostIdFailure, (state, { error }) => ({
+  on(createPostFailure, (state, { error }) => ({
     ...state,
-    comments: [],
+    posts: [],
     isLoading: false,
     error,
   }))

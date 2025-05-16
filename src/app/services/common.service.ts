@@ -2,7 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { env } from '../../environments/environment';
 import { Observable, tap } from 'rxjs';
-import { IComments, IFavorites, IRentPost, IUser } from '../models/common.vm';
+import {
+  IComments,
+  ICreatePost,
+  IFavorites,
+  IRentPost,
+  IUser,
+} from '../models/common.vm';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +40,32 @@ export class CommonService {
     return this.http.get<IRentPost[]>(`${this.apiUrl}/posts?id=${postId}`);
   }
 
+ /**
+  * Create New Post
+  *
+  * @param {ICreatePost} postObj
+  * @return {*}  {Observable<IRentPost[]>}
+  * @memberof CommonService
+  */
+ createRentPost(postObj: ICreatePost): Observable<IRentPost> {
+    return this.http.post<IRentPost>(`${this.apiUrl}/posts`, postObj);
+  }
+
+  /**
+   * Update existing post by post id
+   *
+   * @param {number} postId
+   * @param {IRentPost} postObj
+   * @return {*}  {Observable<IRentPost>}
+   * @memberof CommonService
+   */
+  updateRentPostById(
+    postId: number,
+    postObj: IRentPost
+  ): Observable<IRentPost> {
+    return this.http.put<IRentPost>(`${this.apiUrl}/${postId}`, postObj);
+  }
+
   /**
    * Get favorites post by user id
    *
@@ -46,7 +78,6 @@ export class CommonService {
       `${this.apiUrl}/favorites?userId=${userId}`
     );
   }
-
 
   /**
    * Get post comments by post id
@@ -69,33 +100,10 @@ export class CommonService {
    * @memberof CommonService
    */
   postAComment(obj: IComments): Observable<IComments[]> {
-    return this.http.post<IComments[]>(`${this.apiUrl}/comments?postId=${obj.postId}`, obj);
-  }
-
-  /**
-   * Create new rent post
-   *
-   * @param {IRentPost} postObj
-   * @return {*}  {Observable<IRentPost>}
-   * @memberof CommonService
-   */
-  createRentPost(postObj: IRentPost): Observable<IRentPost> {
-    return this.http.post<IRentPost>(`${this.apiUrl}/`, postObj);
-  }
-
-  /**
-   * Update existing post by post id
-   *
-   * @param {number} postId
-   * @param {IRentPost} postObj
-   * @return {*}  {Observable<IRentPost>}
-   * @memberof CommonService
-   */
-  updateRentPostById(
-    postId: number,
-    postObj: IRentPost
-  ): Observable<IRentPost> {
-    return this.http.put<IRentPost>(`${this.apiUrl}/${postId}`, postObj);
+    return this.http.post<IComments[]>(
+      `${this.apiUrl}/comments?postId=${obj.postId}`,
+      obj
+    );
   }
 
   /**
@@ -109,6 +117,17 @@ export class CommonService {
     return this.http.post<IUser>(`${this.apiUrl}`, userObj);
   }
 
+  /**
+   *
+   *
+   * @param {{
+   *     email: string;
+   *     password: string;
+   *     role: string;
+   *   }} credentials
+   * @return {*}  {Observable<any>}
+   * @memberof CommonService
+   */
   login(credentials: {
     email: string;
     password: string;

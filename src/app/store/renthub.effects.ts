@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CommonService } from '../services/common.service';
 import {
-
-  loadCommentsByPostId,
-  loadCommentsByPostIdSuccess,
+  createPost,
+  createPostFailure,
+  createPostSuccess,
   loadRentPost,
   loadRentPostSuccess,
 } from './renthub.action';
@@ -26,31 +26,24 @@ export class RentPostEffects {
     this.actions$.pipe(
       ofType(loadRentPost),
       mergeMap(() =>
-        this.service
-          .getRentPosts()
-          .pipe(map((posts: IRentPost[]) => {
-            console.log('posts', posts)
-            return loadRentPostSuccess({ posts })
-          }))
+        this.service.getRentPosts().pipe(
+          map((posts: IRentPost[]) => {
+            return loadRentPostSuccess({ posts });
+          })
+        )
       )
     )
   );
 
-  loadCommentsByPostId$ = createEffect(() =>
+  createPost$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadCommentsByPostId),
-      switchMap(({ postId }) =>
-        this.service.getCommentsByPostId(postId).pipe(
-          map((comments) => loadCommentsByPostIdSuccess({ comments })),
-          catchError((error) =>
-            of(loadCommentsByPostIdFailure({ error: error.message }))
-          )
+      ofType(createPost),
+      switchMap(({payload}) =>
+        this.service.createRentPost(payload).pipe(
+          map((post) => createPostSuccess({post})),
+          catchError((error) => of(createPostFailure({ error: error.message })))
         )
       )
     )
   );
 }
-function loadCommentsByPostIdFailure(arg0: { error: any; }): any {
-  throw new Error('Function not implemented.');
-}
-

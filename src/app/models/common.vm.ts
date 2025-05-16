@@ -23,6 +23,24 @@ export interface IRentPost {
   isFavorite?: boolean;
 }
 
+export interface ICreatePost {
+  userId: number;
+  apartmentType: string;
+  name: string;
+  sharedProperty: boolean;
+  location: string;
+  squareFit: number;
+  rent: number;
+  apartmentFurnished: boolean;
+  amenities: string[];
+  title: string;
+  description: string;
+  rentNegotiable: boolean;
+  priceMode: string;
+  stayType: string;
+  images: string[];
+}
+
 export interface IFavorites {
   id: number;
   userId: number;

@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { PostDetailsComponentStore } from './details.store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AsyncPipe, Location, NgIf } from '@angular/common';
-import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-post-details',
@@ -48,6 +47,8 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   /** Store Comment loading state */
   readonly commentIsLoading$: Observable<boolean> = this.componentStore.selectCommentIsLoading$;
 
+  private service = inject
+
   ngOnInit(): void {
     this.activatedRoute.params
       .pipe(takeUntil(this.destroy$))
@@ -69,21 +70,6 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  // amenities: IAmenities[] = [
-  //   { name: 'Gym/Fitness Center', icon: 'check_circle' },
-  //   { name: 'Swimming Pool', icon: 'check_circle' },
-  //   { name: 'Card Park', icon: 'check_circle' },
-  //   { name: 'Visitors Parking', icon: 'check_circle' },
-  //   { name: 'Power Backup', icon: 'check_circle' },
-  //   { name: 'Garbage Disposal', icon: 'check_circle' },
-  //   { name: 'Private Lawn', icon: 'check_circle' },
-  //   { name: 'Water Heater', icon: 'check_circle' },
-  //   { name: 'Plant Security System', icon: 'check_circle' },
-  //   { name: 'Laundry Service', icon: 'check_circle' },
-  //   { name: 'Elevator', icon: 'check_circle' },
-  //   { name: 'Club House', icon: 'check_circle' },
-  // ];
 
   goBack(): void {
     this.location.back();

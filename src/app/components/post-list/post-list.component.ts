@@ -30,7 +30,6 @@ export class PostListComponent {
     this.posts$.pipe(takeUntil(this.destroy$)).subscribe((res) => {
       if(res?.length){
         const filterData = res.filter((post) => post.userId === this.userId);
-        console.log('filterData',res)
         this.myPostList.set(filterData);
       }
     })
