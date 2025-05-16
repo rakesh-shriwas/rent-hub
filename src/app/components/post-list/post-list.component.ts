@@ -6,14 +6,13 @@ import { selectPosts } from '../../store/renthub.selectors';
 import { IRentPost } from '../../models/common.vm';
 import { loadRentPost } from '../../store/renthub.action';
 import { CardComponent } from '../card/card.component';
-import { AsyncPipe } from '@angular/common';
 import { NotRecordFoundComponent } from '../not-record-found/not-record-found.component';
 import { CreatePostDialogComponent } from '../create-post-dialog/create-post-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-post-list',
-  imports: [CardComponent, NotRecordFoundComponent, AsyncPipe],
+  imports: [CardComponent, NotRecordFoundComponent],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss',
 })

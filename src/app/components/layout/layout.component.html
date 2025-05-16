@@ -8,7 +8,8 @@
       Rent-hub
     </button>
     <span class="example-spacer"></span>
-    <!-- <button
+    <button mat-button [routerLink]="['/home']" >Home</button>
+    <button
       mat-button
       class="example-icon favorite-icon"
       aria-label="Example icon-button with heart icon"
@@ -23,7 +24,7 @@
       (click)="openLoginSignup('signup')"
     >
       Signup
-    </button> -->
+    </button>
     <button mat-button (click)="createNewPost()">Create New Post</button>
     <button mat-button [routerLink]="['/home', 'my','fav']" >
       <mat-icon>favorite</mat-icon>
