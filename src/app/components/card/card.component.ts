@@ -16,12 +16,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
-export class CardComponent {
+export class CardComponent implements OnInit {
   @Output() viewPostDetails = new EventEmitter();
   @Output() toggleFavorite = new EventEmitter();
   @Output() editPost = new EventEmitter();
   @Input() post: IRentPost;
-  @Input() showFavoriteButton: boolean = true;
+  @Input() loggedInUserDetails: any;
 
   constructor() {}
+
+  ngOnInit(): void {
+    console.log('userDetails',this.loggedInUserDetails)
+  }
 }

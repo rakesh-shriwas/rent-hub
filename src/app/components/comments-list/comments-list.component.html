@@ -1,3 +1,4 @@
+@if (loggedInUser()) {
 <h4>Comments</h4>
 <div class="comment-form-field">
   <mat-form-field appearance="outline" class="w-100">
@@ -44,5 +45,5 @@
   </mat-card-content>
 </mat-card>
 }@empty {
-  <p class="text-center">There is no Comments</p>
-}
+<p class="text-center">There is no Comments</p>
+} }

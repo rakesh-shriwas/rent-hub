@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CardComponent } from '../card/card.component';
-import { IComments, IRentPost } from '../../models/common.vm';
+import { IComments, IRentPost, IUser } from '../../models/common.vm';
 import { Store } from '@ngrx/store';
 import { loadRentPost } from '../../store/renthub.action';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -13,6 +13,7 @@ import {
   selectPosts,
 } from '../../store/renthub.selectors';
 import { AsyncPipe } from '@angular/common';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-home',
@@ -23,16 +24,18 @@ import { AsyncPipe } from '@angular/common';
 export class HomeComponent implements OnInit, OnDestroy {
   readonly dialog = inject(MatDialog);
   readonly router = inject(Router);
+  private service = inject(CommonService);
   private destroy$ = new Subject<void>();
 
   private store = inject(Store);
 
   posts$: Observable<IRentPost[]> = this.store.select(selectPosts);
   isLoading$: Observable<boolean> = this.store.select(selectIsLoading);
-
+  loggedInUserDetails: IUser;
 
   ngOnInit(): void {
     this.store.dispatch(loadRentPost());
+    this.loggedInUserDetails = this.service.getAuthenticateUser();
   }
   createPostForm = new FormGroup({
     title: new FormControl('', [Validators.required]),

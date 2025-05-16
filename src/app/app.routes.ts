@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './auth.guard';
 
-export const routes: Routes = [
+export const routes1: Routes = [
   {
     path: '',
     redirectTo: 'home',
@@ -58,3 +59,59 @@ export const routes: Routes = [
     ],
   },
 ];
+
+
+// export const routes: Routes = [
+//   {
+//     path: '',
+//     loadComponent: () =>
+//       import('./pages/landing/landing.component').then(m => m.LandingComponent),
+//   },
+//   {
+//     path: 'login',
+//     loadComponent: () =>
+//       import('./pages/login/login.component').then(m => m.LoginComponent),
+//   },
+//   {
+//     path: 'app',
+//     loadComponent: () =>
+//       import('./pages/app/app-shell/app-shell.component').then(m => m.AppShellComponent),
+//     // canActivate: [AuthGuard], // optional: protect this route
+//     children: [
+//       {
+//         path: '',
+//         redirectTo: 'main',
+//         pathMatch: 'full',
+//       },
+//       {
+//         path: 'main',
+//         loadComponent: () =>
+//           import('./pages/app/main/main.component').then(m => m.MainComponent),
+//       },
+//       {
+//         path: 'fav',
+//         loadComponent: () =>
+//           import('./pages/app/fav/fav.component').then(m => m.FavComponent),
+//       },
+//       {
+//         path: 'myposts',
+//         loadComponent: () =>
+//           import('./pages/app/myposts/myposts.component').then(m => m.MypostsComponent),
+//       },
+//       {
+//         path: 'myposts/:id',
+//         loadComponent: () =>
+//           import('./pages/app/mypost-details/mypost-details.component').then(m => m.MypostDetailsComponent),
+//       },
+//       {
+//         path: 'edit/:id',
+//         loadComponent: () =>
+//           import('./pages/app/edit/edit.component').then(m => m.EditComponent),
+//       },
+//     ],
+//   },
+//   {
+//     path: '**',
+//     redirectTo: '',
+//   },
+// ];

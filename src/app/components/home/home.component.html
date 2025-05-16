@@ -1,5 +1,5 @@
 <div class="card-container">
   @for (post of posts$ | async; track post.id) {
-      <app-card (viewPostDetails)="viewDetails($event)" [post]="post"></app-card>
+      <app-card (viewPostDetails)="viewDetails($event)" [post]="post" [loggedInUserDetails]="loggedInUserDetails"></app-card>
   }
 </div>

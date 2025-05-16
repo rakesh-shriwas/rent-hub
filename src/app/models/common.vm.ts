@@ -57,9 +57,8 @@ export interface IComments {
 }
 
 export interface IUser {
-  id?: number;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
+  name?: string | null;
+  email?: string | null;
+  password?: string | null;
+  role?: string | null;
 }

@@ -114,7 +114,7 @@ export class CommonService {
    * @memberof CommonService
    */
   createUser(userObj: IUser): Observable<IUser> {
-    return this.http.post<IUser>(`${this.apiUrl}`, userObj);
+    return this.http.post<IUser>(`${this.apiUrl}/users`, userObj);
   }
 
   /**
@@ -128,23 +128,28 @@ export class CommonService {
    * @return {*}  {Observable<any>}
    * @memberof CommonService
    */
-  login(credentials: {
-    email: string;
-    password: string;
-    role: string;
-  }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, credentials);
+  // login(credentials: IUser): Observable<any> {
+  //   return this.http.post<any>(`${this.apiUrl}/login`, credentials);
+  // }
+
+  getUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`${this.apiUrl}/users`);
   }
 
   logout(): void {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('loggedInUser');
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('auth_token');
-  }
+  // isLoggedIn(): boolean {
+  //   return !!localStorage.getItem('loggedInUser');
+  // }
 
-  getToken(): string | null {
-    return localStorage.getItem('auth_token');
+  getAuthenticateUser() {
+    const user = localStorage.getItem('loggedInUser');
+    if (user) {
+      return JSON.parse(user);
+    } else {
+      return null;
+    }
   }
 }

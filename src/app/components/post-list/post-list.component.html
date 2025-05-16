@@ -1,6 +1,6 @@
 <div class="card-container">
     @for (post of myPostList(); track post.id) {
-        <app-card (viewPostDetails)="viewDetails($event)" (editPost)="editPost($event)" [post]="post" [showFavoriteButton]="false"></app-card>
+        <app-card (viewPostDetails)="viewDetails($event)" (editPost)="editPost($event)" [post]="post" [loggedInUserDetails]="loggedInUser()"></app-card>
     }@empty {
         <app-not-record-found class="no-record"></app-not-record-found>
     }

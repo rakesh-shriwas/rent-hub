@@ -1,55 +1,68 @@
 <mat-toolbar>
+  <button
+    mat-button
+    aria-label="Landing Page"
+    [routerLink]="['/home']"
+    class="home-button"
+  >
+    Rent-hub
+  </button>
+  <span class="example-spacer"></span>
+  <button mat-button [routerLink]="['/home']">Home</button>
+  @if(!(loggedInUser$ | async)){
+  <button
+    mat-button
+    class="example-icon favorite-icon"
+    aria-label="Example icon-button with heart icon"
+    (click)="openLoginSignup('login')"
+  >
+    Login
+  </button>
+  <button
+    mat-button
+    class="example-icon"
+    aria-label="Example icon-button with share icon"
+    (click)="openLoginSignup('signup')"
+  >
+    Signup
+  </button>
+  }
+  <ng-container *ngIf="loggedInUser$ | async as loggedInUser">
     <button
       mat-button
-      aria-label="Landing Page"
-      [routerLink]="['/home']" 
-      class="home-button"
+      (click)="createNewPost()"
+      *ngIf="loggedInUser.role === 'landlords'"
     >
-      Rent-hub
-    </button>
-    <span class="example-spacer"></span>
-    <button mat-button [routerLink]="['/home']" >Home</button>
-    <button
-      mat-button
-      class="example-icon favorite-icon"
-      aria-label="Example icon-button with heart icon"
-      (click)="openLoginSignup('login')"
-    >
-      Login
-    </button>
-    <button
-      mat-button
-      class="example-icon"
-      aria-label="Example icon-button with share icon"
-      (click)="openLoginSignup('signup')"
-    >
-      Signup
-    </button>
-    <button mat-button (click)="createNewPost()">Create New Post</button>
-    <button mat-button [routerLink]="['/home', 'my','fav']" >
-      <mat-icon>favorite</mat-icon>
-      <span>My Favorite</span>
+      Create New Post
     </button>
     <button mat-button [routerLink]="['/home', 'my', 'post']">
       <mat-icon>format_list_bulleted</mat-icon>
       <span>Post List</span>
     </button>
+    <ng-container *ngIf="loggedInUser.role === 'renters'">
+      <button
+        mat-button
+        [routerLink]="['/home', 'my', 'fav']"
+        *ngIf="(loggedInUser$ | async)?.role === 'renters'"
+      >
+        <mat-icon>favorite</mat-icon>
+        <span>My Favorite</span>
+      </button>
+    </ng-container>
     <button mat-button [matMenuTriggerFor]="profileMenu">
       <mat-icon>account_circle</mat-icon>
       Rakesh Shriwas
     </button>
     <mat-menu #profileMenu="matMenu">
-      
-      <button mat-menu-item>
+      <button mat-menu-item (click)="logOut()">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>
       </button>
     </mat-menu>
-  </mat-toolbar>
-  <main>
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
-  
-  
+  </ng-container>
+</mat-toolbar>
+<main>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</main>

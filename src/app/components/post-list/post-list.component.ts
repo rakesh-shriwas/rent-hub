@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { selectPosts } from '../../store/renthub.selectors';
-import { IRentPost } from '../../models/common.vm';
+import { IRentPost, IUser } from '../../models/common.vm';
 import { loadRentPost } from '../../store/renthub.action';
 import { CardComponent } from '../card/card.component';
 import { NotRecordFoundComponent } from '../not-record-found/not-record-found.component';
 import { CreatePostDialogComponent } from '../create-post-dialog/create-post-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-post-list',
@@ -19,12 +20,16 @@ import { MatDialog } from '@angular/material/dialog';
 export class PostListComponent {
   private store = inject(Store);
   readonly dialog = inject(MatDialog);
+  private router = inject(Router);
+  private service = inject(CommonService);
   private destroy$ = new Subject<void>();
-  router = inject(Router);
-  myPostList = signal<IRentPost[]>([]);
 
+  loggedInUser = signal<any>(null);
+  myPostList = signal<IRentPost[]>([]);
+  loggedInUserDetails: IUser;
   userId: number = 2;
 
+  /** Store Post Data */
   posts$: Observable<IRentPost[]> = this.store.select(selectPosts);
 
   ngOnInit(): void {
@@ -33,6 +38,8 @@ export class PostListComponent {
       if (res?.length) {
         const filterData = res.filter((post) => post.userId === this.userId);
         this.myPostList.set(filterData);
+        this.loggedInUserDetails = this.service.getAuthenticateUser();
+        this.loggedInUser.set(this.loggedInUserDetails);
       }
     });
   }
